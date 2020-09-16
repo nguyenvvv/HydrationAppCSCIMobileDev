@@ -3,6 +3,8 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'create_profile.dart';
+import 'determine_hydration.dart';
 //import 'package:hexcolor/hexcolor.dart';
 
 void main() {
@@ -41,14 +43,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _name = "";
-
-  void _DisplayName(name) {
-    setState(() {
-      _name = name;
-    });
-  }
-
+  String _exerciseLevel = "basic";
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -128,8 +124,51 @@ class _MyHomePageState extends State<MyHomePage> {
             height: 100,
             color: Color(0xFFF2F1EB),
             child: Center(
+              child: Text(
+                'Input your level of exercise below',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          Container(
+            width: 500,
+            height: 100,
+            color: Color(0xFFF2F1EB),
+            padding: EdgeInsets.all(25.0),
+            child: Center(
+                child: DropdownButton(
+              value: _exerciseLevel,
+              items: [
+                DropdownMenuItem(
+                  child: Text("Basic"),
+                  value: "basic",
+                ),
+                DropdownMenuItem(
+                  child: Text("Medium"),
+                  value: "medium",
+                ),
+                DropdownMenuItem(child: Text("Intense"), value: "intense"),
+              ],
+              onChanged: (String value) {
+                setState(() {
+                  _exerciseLevel = value;
+                });
+              },
+            )),
+          ),
+          Container(
+            width: 500,
+            height: 100,
+            color: Color(0xFFF2F1EB),
+            child: Center(
                 child: FloatingActionButton(
-                    child: Icon(Icons.forward), onPressed: () {})),
+                    child: Icon(Icons.forward),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateProfile()));
+                    })),
           ),
         ]),
       ),
