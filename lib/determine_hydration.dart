@@ -14,6 +14,8 @@ class DetermineHydration {
   }
 
   int getHydration() {
+    calculateHydration();
+    determineHydrationNeeded();
     return _hydrationGoal;
   }
 
@@ -30,15 +32,10 @@ class DetermineHydration {
   }
 
   void calculateHydration() {
-    _hydrationGoal = (_weight * .67) as int;
+    _hydrationGoal = (_weight * .67).round() as int;
   }
 
   void determineHydrationNeeded() {
     _hydrationLeft = _hydrationGoal - _waterIntake;
   }
 }
-
-// 12 oz for basic
-// 24 oz for medium
-// 36 oz for intense
-enum WorkoutLevel { basic, medium, intense }

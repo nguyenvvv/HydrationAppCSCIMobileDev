@@ -5,7 +5,6 @@
 import 'package:flutter/material.dart';
 import 'create_profile.dart';
 import 'determine_hydration.dart';
-//import 'package:hexcolor/hexcolor.dart';
 
 void main() {
   runApp(MyApp());
@@ -43,7 +42,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _exerciseLevel = "basic";
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController weightController = new TextEditingController();
+  DetermineHydration friend;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               'assets/images/hydrationlogo.png',
               fit: BoxFit.none,
             ),
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topRight,
                 colors: <Color>[
@@ -102,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Name: '),
+                controller: nameController,
                 maxLength: 50,
               ),
             ),
@@ -115,46 +118,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Body Weight (in lbs): '),
-                maxLength: 50,
+                controller: weightController,
+                keyboardType: TextInputType.number,
               ),
             ),
-          ),
-          Container(
-            width: 500,
-            height: 100,
-            color: Color(0xFFF2F1EB),
-            child: Center(
-              child: Text(
-                'Input your level of exercise below',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-          Container(
-            width: 500,
-            height: 100,
-            color: Color(0xFFF2F1EB),
-            padding: EdgeInsets.all(25.0),
-            child: Center(
-                child: DropdownButton(
-              value: _exerciseLevel,
-              items: [
-                DropdownMenuItem(
-                  child: Text("Basic"),
-                  value: "basic",
-                ),
-                DropdownMenuItem(
-                  child: Text("Medium"),
-                  value: "medium",
-                ),
-                DropdownMenuItem(child: Text("Intense"), value: "intense"),
-              ],
-              onChanged: (String value) {
-                setState(() {
-                  _exerciseLevel = value;
-                });
-              },
-            )),
           ),
           Container(
             width: 500,
@@ -164,10 +131,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: FloatingActionButton(
                     child: Icon(Icons.forward),
                     onPressed: () {
+                      friend = DetermineHydration(nameController.text,
+                          int.parse(weightController.text));
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => CreateProfile()));
+                            builder: (context) => CreateProfile(friend: friend),
+                          ));
                     })),
           ),
         ]),
